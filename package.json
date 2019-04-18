@@ -1,0 +1,33 @@
+{
+  "name": "node-red-aws-checkdomainavailability",
+  "version": "1.0.0",
+  "description": "Check domain availability",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sameer1703/node-red-aws-checkdomainavailability.git"
+  },
+  "keywords": [
+    "node-red",
+    "aws",
+    "route53",
+    "domain",
+    "checkdomain"
+  ],
+  "author": "Sameer Mehta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sameer1703/node-red-aws-checkdomainavailability/issues"
+  },
+  "homepage": "https://github.com/sameer1703/node-red-aws-checkdomainavailability#readme",
+  "node-red": {
+    "nodes": {
+      "domain-availability": "domain-availability.js"
+    }
+  },
+  "dependencies": {
+    "aws-sdk": "^2.438.0"
+  }
+}
