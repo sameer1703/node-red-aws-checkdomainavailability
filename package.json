@@ -24,7 +24,8 @@
   "homepage": "https://github.com/sameer1703/node-red-aws-checkdomainavailability#readme",
   "node-red": {
     "nodes": {
-      "domain-availability": "domain-availability.js"
+      "domain-availability": "domain-availability.js",
+      "register-domain": "register-domain.js"
     }
   },
   "dependencies": {

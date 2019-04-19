@@ -11,14 +11,15 @@ module.exports = function(RED) {
         		let params = {
 	        		"DomainName": domainName
 	        	};
-	        	let payload = {"error": false,"Availability":"","SuggestionsList":[]};
+	        	let payload = {"error": false, data:{}};
 	        	route53domains.checkDomainAvailability(params, function(err, data) {
 					if (err) {
 						msg.statusCode = 400;
         				msg.payload = {"error": true, errorMessage: JSON.stringify(err)};
         				node.send(msg);
 					} else {
-						payload.Availability = data.Availability;
+						msg.statusCode = 200;
+						payload.data["Availability"] = data.Availability;
 				  	}
 				  	let suggestionParams = {
 				  		"DomainName": domainName,
@@ -31,7 +32,8 @@ module.exports = function(RED) {
 	        				msg.payload = {"error": true, errorMessage: JSON.stringify(err)};
 	        				node.send(msg);
 						} else {
-							payload.SuggestionsList = suggestions.SuggestionsList;
+							msg.statusCode = 200;
+							payload.data["SuggestionsList"] = suggestions.SuggestionsList;
 						}
 						msg.payload = payload;
 						node.send(msg);

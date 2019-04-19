@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    RED.nodes.registerType('register-domain',{
+        category: 'AWS',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"register-domain";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="register-domain">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="register-domain">
+    <p>A simple node that registers domain on route53</p>
+</script>
