@@ -25,10 +25,13 @@
   "node-red": {
     "nodes": {
       "domain-availability": "domain-availability.js",
-      "register-domain": "register-domain.js"
+      "register-domain": "register-domain.js",
+      "domain-status": "domain-status.js",
+      "resend-email":"resend-email.js"
     }
   },
   "dependencies": {
-    "aws-sdk": "^2.438.0"
+    "aws-sdk": "^2.438.0",
+    "mustache": "^3.0.1"
   }
 }
