@@ -27,7 +27,10 @@
       "domain-availability": "domain-availability.js",
       "register-domain": "register-domain.js",
       "domain-status": "domain-status.js",
-      "resend-email":"resend-email.js"
+      "resend-email":"resend-email.js",
+      "request-certificate":"request-certificate.js",
+      "certificate-info": "certificate-info.js",
+      "revoke-certificate": "revoke-certificate.js"
     }
   },
   "dependencies": {
