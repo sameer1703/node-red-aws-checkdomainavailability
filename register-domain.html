@@ -3,7 +3,11 @@
         category: 'AWS',
         color: '#a6bbcf',
         defaults: {
-            name: {value:""}
+            name: {value:""},
+            dbhost: {value:""},
+            dbname: {value:""},
+            dbusername: {value:""},
+            dbpassword: {value:""}
         },
         inputs:1,
         outputs:1,
@@ -18,6 +22,22 @@
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-dbhost"><i class="icon-tag"></i> DB Host</label>
+        <input type="text" id="node-input-dbhost" placeholder="DB Host">
+    </div>
+    <div class="form-row">
+        <label for="node-input-dbname"><i class="icon-tag"></i> DB Name</label>
+        <input type="text" id="node-input-dbname" placeholder="DB Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-dbusername"><i class="icon-tag"></i> DB UserName</label>
+        <input type="text" id="node-input-dbusername" placeholder="DB Username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-dbpassword"><i class="icon-tag"></i> DB Password</label>
+        <input type="text" id="node-input-dbpassword" placeholder="DB Password">
     </div>
 </script>
 

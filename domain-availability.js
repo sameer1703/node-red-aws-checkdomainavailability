@@ -1,25 +1,38 @@
+let v = require("./nestedvalidation");
 const AWS = require('aws-sdk');
 AWS.config.update({region:'us-east-1'});
 let route53domains = new AWS.Route53Domains();
+let validationSchema = {
+	"required" : {"DomainName":"DomainName is required"},
+	"isFQDN": {"DomainName": "Invalid domain"}
+};
 module.exports = function(RED) {
     function DomainAvailability(config) {
         RED.nodes.createNode(this,config);
         var node = this;
         node.on('input', function(msg) {
-        	if (msg.payload.trim()) {
-        		let domainName = msg.payload;
+        	let result = v.validateform(msg.payload, validationSchema);
+        	if (result.error) {
+        		msg.statusCode = 400;
+        		result.message = "Invalid Request Parameters";
+        		result.data = null;
+        		msg.payload = result;
+        		node.send(msg);
+        	} else {
+        		let domainName = msg.payload.DomainName;
         		let params = {
 	        		"DomainName": domainName
 	        	};
-	        	let payload = {"error": false, data:{}};
+
 	        	route53domains.checkDomainAvailability(params, function(err, data) {
 					if (err) {
-						msg.statusCode = 400;
-        				msg.payload = {"error": true, errorMessage: JSON.stringify(err)};
-        				node.send(msg);
+						console.log(err);
+						msg.statusCode = err.statusCode;
+						result.message = err.message;
+        				msg.payload = result;
 					} else {
 						msg.statusCode = 200;
-						payload.data["Availability"] = data.Availability;
+						result.data["Availability"] = data.Availability;
 				  	}
 				  	let suggestionParams = {
 				  		"DomainName": domainName,
@@ -28,23 +41,19 @@ module.exports = function(RED) {
 				  	};
 				  	route53domains.getDomainSuggestions(suggestionParams, function(error, suggestions){
 				  		if (err) {
-							msg.statusCode = 400;
-	        				msg.payload = {"error": true, errorMessage: JSON.stringify(err)};
-	        				node.send(msg);
+							msg.statusCode = err.statusCode;
+							result.message = err.message;
+	        				msg.payload = result;
 						} else {
 							msg.statusCode = 200;
-							payload.data["SuggestionsList"] = suggestions.SuggestionsList;
+							result.data["SuggestionsList"] = suggestions.SuggestionsList;
 						}
-						msg.payload = payload;
+						msg.payload = result;
 						node.send(msg);
 				  	});
 				});
-        	} else {
-        		msg.statusCode = 400;
-        		msg.payload = {"error": true, errorMessage: "Domain name is required."};
-        		node.send(msg);
+
         	}
-            // msg.payload = msg.payload.toLowerCase();
         });
     }
     RED.nodes.registerType("domain-availability",DomainAvailability);
