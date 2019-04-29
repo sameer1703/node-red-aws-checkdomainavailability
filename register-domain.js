@@ -63,7 +63,7 @@ module.exports = function(RED) {
         var node = this;
         node.on('input', function(msg) {
             
-            let result = v.validateform(Object.assign(msg.payload,config), validationSchema);
+            let result = v.validateform(Object.assign(config, msg.payload), validationSchema);
             if (result.error) {
                 msg.statusCode = 400;
                 result.message = "Invalid Request Parameters";
@@ -82,14 +82,24 @@ module.exports = function(RED) {
                     if (err) {
                         msg.statusCode = err.statusCode;
                         result.message = err.message;
+                        result.error = true;
                         msg.payload = result;
                         node.send(msg);
                     } else {
-                        connection.query("INSERT INTO domains (domain, type, status, record_count, operationid, created_at, updated_at) VALUES('"+msg.payload.DomainName+"', 'public' 'SUBMITTED', 0, '"+data.OperationId+"', '"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"','"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"')", function(err, result){
-                            msg.statusCode = 200;
-                            result.data = result;
-                            msg.payload = result;
-                            node.send(msg);
+                        connection.query("INSERT INTO domains (domain, type, status, record_count, operationid, created_at, updated_at) VALUES('"+msg.payload.DomainName+"', 'public', 'SUBMITTED', 0, '"+data.OperationId+"', '"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"','"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"')", function(err, mysqlresult){
+                            if(err) {
+                                console.log(err);
+                                msg.statusCode = 400;
+                                result.message = err.sqlMessage;
+                                result.error = true;
+                                msg.payload = result;
+                                node.send(msg);
+                            } else {
+                                msg.statusCode = 200;
+                                result.data = mysqlresult;
+                                msg.payload = result;
+                                node.send(msg);    
+                            }
                         });
                     }
                 });    

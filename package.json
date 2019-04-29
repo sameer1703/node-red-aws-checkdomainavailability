@@ -26,6 +26,7 @@
     "nodes": {
       "domain-availability": "domain-availability.js",
       "register-domain": "register-domain.js",
+      "list-domains": "list-domains.js",
       "domain-status": "domain-status.js",
       "resend-email": "resend-email.js",
       "request-certificate": "request-certificate.js",
@@ -34,6 +35,7 @@
     }
   },
   "dependencies": {
+    "api-pagination": "^1.0.6",
     "aws-sdk": "^2.438.0",
     "jsonschema": "^1.2.4",
     "lodash": "^4.17.11",

@@ -16,7 +16,7 @@ function validationMethod(data, field, type, message) {
 			}
 		}
 		if(type == "required"){
-			if(_.isNil(fieldVal) || _.isEmpty(fieldVal)){
+			if(_.isNil(fieldVal) || _.isEmpty(fieldVal+'')){
 				return message;
 			} else {
 				return false;
