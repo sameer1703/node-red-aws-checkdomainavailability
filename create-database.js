@@ -59,7 +59,6 @@ module.exports = function(RED) {
                             params = {
                                 "DBClusterIdentifier": dbclustername,
                                 "Engine": "aurora",
-                                "AvailabilityZones":["us-east-1"],
                                 "BackupRetentionPeriod":2,
                                 "DBSubnetGroupName":"wsuitedb",
                                 "DatabaseName": masterdbname,
