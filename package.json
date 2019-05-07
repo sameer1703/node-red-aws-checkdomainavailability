@@ -30,9 +30,12 @@
       "list-domainrecords": "list-domainrecords.js",
       "domain-status": "domain-status.js",
       "resend-email": "resend-email.js",
+
       "request-certificate": "request-certificate.js",
       "certificate-info": "certificate-info.js",
       "revoke-certificate": "revoke-certificate.js",
+      "list-certificate": "list-certificate.js",
+
       "create-database": "create-database.js"
     }
   },

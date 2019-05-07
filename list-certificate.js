@@ -1,8 +1,10 @@
 let v = require("./nestedvalidation");
 var mysql = require('mysql');
+var pagination = require('api-pagination');
 
 let validationSchema = {
     "required" : {
+        "wclient_id": "wclient_id is required",
         "dbhost": "Please configure dbhost",
         "dbname": "Please configure dbname",
         "dbusername": "Please configure dbusername",
@@ -11,9 +13,15 @@ let validationSchema = {
 };
 
 module.exports = function(RED) {
-    function ListDomainRecords(config) {
+    function ListCertificates(config) {
         RED.nodes.createNode(this,config);
         var node = this;
+        let limit = config.limit || 10;
+        let page = 1;
+        let searchstr = "";
+        let sort_by = "created_at";
+        let sort = "DESC";
+        let queryLimit = " LIMIT " + (parseInt((page-1))*limit) + ", " + limit;
         node.on('input', function(msg) {
             let result = v.validateform(Object.assign(config, msg.payload), validationSchema);
             if (result.error) {
@@ -31,12 +39,12 @@ module.exports = function(RED) {
                 });
                 let params = msg.payload;
 
-                let query = "SELECT id, domain, type, zone_id, status, record_count, comment FROM domains";
-                let countQuery = "SELECT count(id) counts FROM domains"
+                let query = "SELECT id, domains, certificatearn, validation_method, status FROM certificates WHERE wclient_id = '"+msg.payload.wclient_id+"'";
+                let countQuery = "SELECT count(id) counts FROM certificates WHERE wclient_id = '"+msg.payload.wclient_id+"'"
 
                 if(params.q){
-                    query += " WHERE domain like '%"+params.q+"%'";
-                    countQuery += " WHERE domain like '%"+params.q+"%'";
+                    query += " AND domain like '%"+params.q+"%'";
+                    countQuery += " AND domain like '%"+params.q+"%'";
                     searchstr = params.q;
                 }
 
@@ -93,5 +101,5 @@ module.exports = function(RED) {
 
         });
     }
-    RED.nodes.registerType("list-domainrecords",ListDomainRecords);
+    RED.nodes.registerType("list-certificate",ListCertificates);
 }

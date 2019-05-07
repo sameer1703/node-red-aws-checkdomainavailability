@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('domain-status',{
+    RED.nodes.registerType('list-certificate',{
         category: 'AWS',
         color: '#a6bbcf',
         defaults: {
@@ -7,18 +7,19 @@
             dbhost: {value:""},
             dbname: {value:""},
             dbusername: {value:""},
-            dbpassword: {value:""}
+            dbpassword: {value:""},
+            limit: {value:""}
         },
         inputs:1,
         outputs:1,
         icon: "file.png",
         label: function() {
-            return this.name||"domain-status";
+            return this.name||"list-certificate";
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="domain-status">
+<script type="text/x-red" data-template-name="list-certificate">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -39,8 +40,12 @@
         <label for="node-input-dbpassword"><i class="icon-tag"></i> DB Password</label>
         <input type="text" id="node-input-dbpassword" placeholder="DB Password">
     </div>
+    <div class="form-row">
+        <label for="node-input-limit"><i class="icon-tag"></i> Records per page</label>
+        <input type="text" id="node-input-limit" placeholder="Records per page">
+    </div>
 </script>
 
-<script type="text/x-red" data-help-name="domain-status">
-    <p>A simple node that get status of operation by operation id</p>
+<script type="text/x-red" data-help-name="list-certificate">
+    <p>A simple node that list all certificates available in W-Dev</p>
 </script>

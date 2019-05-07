@@ -6,6 +6,7 @@ var mysql = require('mysql');
 
 let validationSchema = {
     "required" : {
+        "wclient_id":"wclient_id is required",
         "DomainName":"DomainName is required",
         "DurationInYears": "DurationInYears is required",
         "AdminContact.ContactType": "ContactType is required",
@@ -86,7 +87,7 @@ module.exports = function(RED) {
                         msg.payload = result;
                         node.send(msg);
                     } else {
-                        connection.query("INSERT INTO domains (domain, type, status, record_count, operationid, created_at, updated_at) VALUES('"+msg.payload.DomainName+"', 'public', 'SUBMITTED', 0, '"+data.OperationId+"', '"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"','"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"')", function(err, mysqlresult){
+                        connection.query("INSERT INTO domains (wclient_id, domain, type, status, record_count, operationid, created_at, updated_at) VALUES('"+msg.payload.wclient_id+"','"+msg.payload.DomainName+"', 'public', 'SUBMITTED', 0, '"+data.OperationId+"', '"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"','"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"')", function(err, mysqlresult){
                             if(err) {
                                 console.log(err);
                                 msg.statusCode = 400;
